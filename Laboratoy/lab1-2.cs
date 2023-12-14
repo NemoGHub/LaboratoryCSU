@@ -15,9 +15,9 @@ using System.Linq.Expressions;
 
 namespace Laboratory 
 {
-    internal class Program
+    public class Laboratory
     {
-        static void Main(string[] args)
+        public static void Run()
         {
             Console.WriteLine("                  =#=    Лабораторные 1+2    =#= ");
             Console.WriteLine("Ввод: ");
@@ -143,7 +143,7 @@ namespace Laboratory
         }
 
         // Эта функция определяет операцию и выполняет её 
-        static double PerformOperation(double a, double b, char operation) // Это математическая операция, так что считаю допустимым исползовать имена a и b
+        public static double PerformOperation(double a, double b, char operation) // Это математическая операция, так что считаю допустимым исползовать имена a и b
         {
             if (operation.Equals('+'))
             {
