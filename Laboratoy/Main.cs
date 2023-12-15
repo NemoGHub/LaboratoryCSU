@@ -20,6 +20,9 @@ namespace Laboratory
 
             // Это лабораторные №3 и №4
             Laboratory_3_4.Run();
+
+            // Это лабораторная №5
+            // Laboratory5.Run();
         }
     }
 }
