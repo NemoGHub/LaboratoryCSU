@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laboratoy;
+using System;
 using System.Linq.Expressions;
 
 
@@ -53,7 +54,7 @@ namespace Laboratory
             {
                 if (symbol != ' ')
                 {
-                    if (char.IsDigit(symbol))
+                    if (char.IsDigit(symbol) || symbol == '.' || symbol == ',')
                     {
                         number += symbol;
                     }
