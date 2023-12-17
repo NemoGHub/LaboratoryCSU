@@ -19,10 +19,10 @@ namespace Laboratory
             // Laboratory.Run();
 
             // Это лабораторные №3 и №4
-            Laboratory_3_4.Run();
+            // Laboratory_3_4.Run();
 
             // Это лабораторная №5
-            // Laboratory5.Run();
+            Laboratory5.Run();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Laboratoy;
 using Laboratoy.classes;
 using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 ///                                   
 /// Лабораторная 5
@@ -13,7 +12,6 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 /// 
 ///
 
-////// --- --- I --- --- ---- ---- I ####          НЕ ЗАКОНЧЕНА!          #### I --- --- ---- ---- I  --- --- \\\\\\
 namespace Laboratory
 {
     public class Laboratory5
@@ -28,7 +26,7 @@ namespace Laboratory
 
             List<Token> reversedPolishNotation = ToRPN(expressionList);
 
-            Console.WriteLine("Результат: " + Convert.ToString(CalclateRPN(reversedPolishNotation)));
+            Console.WriteLine("Результат: " + CalclateRPN(reversedPolishNotation).number);
             Run();
         }
 
@@ -43,10 +41,12 @@ namespace Laboratory
                 {
                     if (char.IsDigit(symbol))
                     {
+                        
                         number += symbol;
                     }
                     else
                     {
+                        
                         if (number != "")
                         {
                             Laboratoy.classes.Number numericToken = new();
@@ -63,9 +63,9 @@ namespace Laboratory
             }
             if (number != "")
             {
-                Operation operationToken = new();
-                operationToken.SetToken(Convert.ToChar(number));
-                expressionObject.Add((operationToken));
+                Laboratoy.classes.Number numericToken = new();
+                numericToken.SetToken(Convert.ToDouble(number));
+                expressionObject.Add((numericToken));
             }
             return expressionObject;
         }
@@ -82,7 +82,6 @@ namespace Laboratory
                 {
                     result.Add(token);
                 }
-                // if (token.Equals('+') || token.Equals('-') || token.Equals('*') || token.Equals('/'))
                 if (token is Operation)
                 {
                     while (operations.Count > 0 && FindOrderOfActions(operations.Peek()) >= FindOrderOfActions(token))
@@ -114,9 +113,10 @@ namespace Laboratory
         }
 
         // Функция определяет порядок действий
-        static int FindOrderOfActions(object operation)
+        static int FindOrderOfActions(Token operation)
         {
-            switch (operation)
+            Operation unknownOperation = (Operation)operation;
+            switch (unknownOperation.operation)
             {
                 case '+':
                     return 1;
@@ -133,20 +133,25 @@ namespace Laboratory
 
 
         // Эта функция считает значение выражения, записанного в виде ОПЗ
-        static Token CalclateRPN(List<Token> rpn)
+        static Laboratoy.classes.Number CalclateRPN(List<Token> rpn)
         {
             for (int i = 0; i < rpn.Count; i++)
             {
                 if (rpn[i] is Operation)
                 {
-                    double result = 0;
-                    double a = Convert.ToDouble(rpn[i - 2]);  // Это математическая операция,  
-                    double b = Convert.ToDouble(rpn[i - 1]); // так что считаю допустимым исползовать имена a и b
+                    var num1 = (Laboratoy.classes.Number)rpn[i - 2]; // Происходит конфликт с системным классом, надёжнее указать полный путь
+                    var num2 = (Laboratoy.classes.Number)rpn[i - 1];
+                    var operation = (Operation)rpn[i];
+
+                    double a = Convert.ToDouble(num1.number);  // Это математическая операция,  
+                    double b = Convert.ToDouble(num2.number); // так что считаю допустимым исползовать имена a и b
 
                     // Обратимся к функции из предыдущей лабораторной, которая выполняет мат. операции, соответстыующие полученному чару 
-                    // её тоже юыло бы неплохо перевести в объектно-ориентированный стиль, но тогда сломаются старые лабораторные
-                    result = Laboratory.PerformOperation(a, b, Convert.ToChar(rpn[i]));
-                    Laboratoy.classes.Number number = new(); // Происходит конфликт с системным классом, надёжнее указать полный путь
+                    // её тоже юыло бы неплохо перевести в объектно-ориентированный стиль, но тогда могут сломаться старые лабораторные
+                    Console.WriteLine(a + " " + operation.operation + " " + num2.number);
+                    double result = Laboratory.PerformOperation(a, b, operation.operation);
+
+                    Laboratoy.classes.Number number = new(); 
                     number.SetToken(result);
                     
                     // Заменяем использованные числа на полученное значение
@@ -156,7 +161,7 @@ namespace Laboratory
                 }
             }
 
-            return rpn[0]; // rpn[0] - после цикла остаётся единственное число, которое и является ответом
+            return (Laboratoy.classes.Number)rpn[0]; // rpn[0] - после цикла остаётся единственное число, которое и является ответом
         }
 
     }
